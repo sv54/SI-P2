@@ -7,7 +7,7 @@ def mostrar_imagen(imagen):
     plt.show()
 
 def adaptar_conjuntos(mnist_X, mnist_Y):
-    print("COMPLETAR ADAPTACION")
+    #print("COMPLETAR ADAPTACION")
     X=mnist_X.reshape(60000, 28*28)
     return (X,mnist_Y)
 
@@ -15,3 +15,12 @@ def plot_arrays(X, Y, title):
     plt.title(title)
     plt.plot(X, Y)
     plt.show()
+
+
+def adaptarY(mnist_Y, clase):
+    for i in range(len(mnist_Y)):
+        if mnist_Y[i]==clase:
+            mnist_Y=1
+        else:
+            mnist_Y=-1
+    return mnist_Y

@@ -1,29 +1,39 @@
 import clasificador_debil as cd
 import numpy as np
+import math
 
 def entrenar(X, Y, T, A):
     clasificadores_debiles = []
     alphas = []
     num = 1000
-    D=[]
-    D.fill(num, 1/num)
+    X = X[0:num]
+    Y = Y[0:num]
+
+    #print(D)
     A=10 #num de pruebas aleatorio
     for i in range(T):
+        D=np.empty(num)
+        D.fill(1/num)
         minimo=-1,()
+        #error=0
         for k in range(A):
             clasificador=cd.generar_clasificador_debil(28*28)
             error= cd.obtener_error(clasificador,X,Y,D)
-            if error<minimo or minimo[0]==-1:
+            if error<minimo[0] or minimo[0]==-1:
                 minimo=(error,clasificador)
+        #print(D)
         clasificadores_debiles.append(minimo)
-        
-        alpha= (1/2)*np.log2((1-error)/error)
-
+        print(error)
+        errorTemp=(1-error)/error
+        #print(errorTemp)
+        if errorTemp<=0:
+            alpha=0.5
+        else:
+            alpha= (1/2)*math.log(((1-error)/error),2)
         alphas.append(alpha)
-
         Z=sum(D)
         Dcopia=D
-        for j in range(len(X)):
+        for j in range(len(D)):
             if cd.aplicar_clasificador_debil(minimo[1],X[j]):
                 r=1
             else:
@@ -32,6 +42,23 @@ def entrenar(X, Y, T, A):
         D=Dcopia/Z
 
     return (clasificadores_debiles, alphas)
+
+
+
+def test(X,Y,c_f):
+
+    for i in range(X):
+        for j in range(len(c_f[0])):
+            cd.aplicar_clasificador_debil(c_f[0[j]])
+
+
+
+    return True
+
+
+
+
+
 
     # D[i]=1/X.len 
     # T --> indica el num de clasificadores debiles
