@@ -18,9 +18,10 @@ def plot_arrays(X, Y, title):
 
 
 def adaptarY(mnist_Y, clase):
-    for i in range(len(mnist_Y)):
+    Y=np.full(len(mnist_Y),0)
+    for i in range(len(Y)):
         if mnist_Y[i]==clase:
-            mnist_Y=1
+            Y[i]=1
         else:
-            mnist_Y=-1
-    return mnist_Y
+            Y[i]=-1
+    return Y

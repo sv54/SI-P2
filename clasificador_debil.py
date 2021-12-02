@@ -17,6 +17,7 @@ def generar_clasificador_debil(dimension_datos):
 
 def aplicar_clasificador_debil(clasificador, imagen):
     #print("COMPLETAR APLICAR CLASIFICADOR DEBIL")
+    
     pixel=clasificador[0]
     umbral=clasificador[1]
     i=clasificador[2]
