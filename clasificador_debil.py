@@ -16,24 +16,22 @@ def generar_clasificador_debil(dimension_datos):
     return (pixel,umbral,i) # Devolvemos el clasificador debil generado
 
 def aplicar_clasificador_debil(clasificador, imagen):
-    #print("COMPLETAR APLICAR CLASIFICADOR DEBIL")
     
     pixel=clasificador[0]
     umbral=clasificador[1]
     i=clasificador[2]
     umbralImg=imagen[pixel]
-
     if umbral<umbralImg:
         if i==-1:
             return True
         else:
             return False
+        
     if umbral>=umbralImg:
         if i==1:
             return True
         else:
             return False
-    return True
 
 def obtener_error(clasificador, X, Y, D):
     errorList=[]
@@ -52,11 +50,12 @@ def obtener_error2(clasificador, X, Y, D):
     error=0.0
     for k in range(len(X)):
         aplicar=aplicar_clasificador_debil(clasificador,X[k])
+        
         if aplicar:
-            if Y[k] != 1:
+            if Y[k] != clasificador[2]:
                 error=error+D[k]
         else:
-            if Y[k] == 1:
+            if Y[k] == clasificador[2]:
                 error=error+D[k]
-
+        #print("clasificador:",clasificador," error: ", error)
     return error

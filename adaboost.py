@@ -2,37 +2,28 @@ from numpy.core.fromnumeric import resize
 import clasificador_debil as cd
 import numpy as np
 import math
+import utils
 
 def entrenar(X, Y, T, A):
     clasificadores_debiles = []
     alphas = []
-    num = 100
-
-
-    #print(D)
-    A=10 #num de pruebas aleatorio
+    #print(len(X))
+    #num de pruebas aleatorio
     for i in range(T):
-        D=np.empty(num)
-        D.fill(1/num)
+        D=np.empty(len(X))
+        D.fill(1/len(X))
         minimo=-1,()
-        #error=0
         for k in range(A):
             clasificador=cd.generar_clasificador_debil(28*28)
-            #print(clasificador)
-            #error= cd.obtener_error(clasificador,X,Y,D)
             error= cd.obtener_error2(clasificador,X,Y,D)
-            #print(error)
             if error<minimo[0] or minimo[0]==-1:
                 minimo=(error,clasificador)
-        #print(D)
         clasificadores_debiles.append(minimo[1])
         errorTemp=(1-error)/error
-        #print(errorTemp)
         if errorTemp<=0:
             alpha=0.5
         else:
             alpha= (1/2)*math.log(((1-error)/error),2)
-        #print (alpha)
         alphas.append(alpha)
         Z=sum(D)
         Dcopia=D
@@ -43,35 +34,37 @@ def entrenar(X, Y, T, A):
                 r=-1
             Dcopia[j]=D[j]*np.e**(-alpha*Y[j]*r)
         D=Dcopia/Z
-
     return (clasificadores_debiles, alphas)
 
 
 
-def test(X,Y,c_f):
-    c_d=[]
-    #print(c_f)
+def test(X,Y,CF):
+    CD=[]
+    h=0
+    #print(len(CF[0]))
+    contador=0
     for i in range(len(X)):
-        h=0
-        for j in range(len(c_f[0])):
-            #print(c_f[0][j])
-            aplicar=cd.aplicar_clasificador_debil(c_f[0][j],X[i])
+        h=0.0
+        for j in range(len(CF[0])):
+            
+            aplicar=cd.aplicar_clasificador_debil(CF[0][j],X[i])
             if aplicar:
                 resul=1
             else:
                 resul=-1
-        h+=c_f[1][j]*resul
-        c_d.append(np.sign(h))
+        h+=CF[1][j]*resul
+        CD.append(np.sign(h))
+        CD[i]=int(CD[i])
+
         
-        c_d[i]=int(c_d[i])
-        
-    contador=0
-    for k in range(len(c_d)):
-        
-        if c_d[k]==Y[k]:
+    
+    for k in range(len(CD)):
+        # utils.mostrar_imagen((X[k]).reshape(28,28))
+        # print(Y[k])
+        # print(CD[k])
+        if CD[k]==Y[k]:
             contador=contador+1
-    print(c_d)
-    print(contador)
+    print((contador/len(CD))*100,"%")
     return np.sign(h)
 
 
@@ -93,13 +86,13 @@ def test(X,Y,c_f):
     # etiquetas_Y = Y[0:num]
 
     # # Obtenemos un clasificador debil
-    # c_d = cd.generar_clasificador_debil(28*28)
+    # CD = cd.generar_clasificador_debil(28*28)
 
     # # Aplicamos el clasificador a una imagen
-    # res = cd.aplicar_clasificador_debil(c_d, imagenes_X[0])
+    # res = cd.aplicar_clasificador_debil(CD, imagenes_X[0])
 
     # # Calculamos el error 
-    # error = cd.obtener_error(c_d, imagenes_X, etiquetas_Y, D)
+    # error = cd.obtener_error(CD, imagenes_X, etiquetas_Y, D)
 
     # ##########################
 
