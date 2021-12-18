@@ -7,21 +7,22 @@ import utils
 def entrenar(X, Y, T, A):
     clasificadores_debiles = []
     alphas = []
+    actualizamos=0
     #print(len(X))
     #num de pruebas aleatorio
     D=np.empty(len(X))
     D.fill(1/len(X))
     for i in range(T):
-        minimo=-1,()
+        minimo=2,()
         for k in range(A):
             clasificador=cd.generar_clasificador_debil(28*28)
             error= cd.obtener_error2(clasificador,X,Y,D)
-            if error<minimo[0] or minimo[0]==-1:
+            if error<minimo[0] or minimo[0]==2:
+                actualizamos+=1
                 minimo=(error,clasificador)
 
         clasificadores_debiles.append(minimo[1])
         errorTemp=(1-error)/error
-
         if errorTemp<=0:
             alpha=0.5
         else:
@@ -29,17 +30,18 @@ def entrenar(X, Y, T, A):
         alphas.append(alpha)
 
         Z=np.sum(D)
+        Dcopia=D.copy()
         for j in range(len(X)):
-            Dcopia=D.copy()
             if cd.aplicar_clasificador_debil(minimo[1],X[j]):
                 r=1
             else:
                 r=-1
+            
             Dcopia[j]=D[j]*np.e**(-alpha*Y[j]*r)
             #print(Dcopia[j],":::", D[j])
         
         D=Dcopia/Z
-        print(D)
+        #print(D)
         
     return (clasificadores_debiles, alphas)
 

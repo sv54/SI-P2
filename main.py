@@ -10,36 +10,37 @@ import clasificador_debil as cd
 def main():
 
     # Cargamos la base de datos
-    #npzfile = np.load("/Users/Serg2/Source/repos/SI-P2/SI-P2/mnist.npz") ##QUITAR 
-    npzfile = np.load("mnist.npz")
+    npzfile = np.load("/Users/Serg2/Source/repos/SI-P2/SI-P2/mnist.npz") ##QUITAR 
+    #npzfile = np.load("mnist.npz")
     mnist_X = npzfile['x']
     mnist_Y = npzfile['y']
     #utils.mostrar_imagen(mnist_X[0])
     #print(mnist_Y[0])
-    num=100
-    incr=100
+    for i in range (100):
+        num=1000
+        incr=1000
 
-    (X, Y) = utils.adaptar_conjuntos(mnist_X, mnist_Y)
-    X = X[0:num]
-    Y = Y[0:num]
-    Y=utils.adaptarY(Y,0)
-
-    # Lanzar Adaboost
-    T = 5
-    A = 1000
-#    print(Y)
-    c_f = adaboost.entrenar(X, Y, T, A)
-    
-    
-
-    print("Entrenamiento acabado", len(c_f[0]))
-    for i in range(3):
-        num=num+incr
-        (X,Y)=utils.adaptar_conjuntos(mnist_X,mnist_Y)
-        X=X[num:num+incr]
-        Y=Y[num:num+incr]
+        (X, Y) = utils.adaptar_conjuntos(mnist_X, mnist_Y)
+        X = X[0:num]
+        Y = Y[0:num]
         Y=utils.adaptarY(Y,0)
-        adaboost.test(X,Y,c_f)
+
+        # Lanzar Adaboost
+        T = 1
+        A = 1
+    #    print(Y)
+        c_f = adaboost.entrenar(X, Y, T, A)
+        
+        
+
+        #print("Entrenamiento acabado", len(c_f[0]))
+        for i in range(1):
+            num=num+incr
+            (X,Y)=utils.adaptar_conjuntos(mnist_X,mnist_Y)
+            X=X[num:num+incr]
+            Y=Y[num:num+incr]
+            Y=utils.adaptarY(Y,0)
+            adaboost.test(X,Y,c_f)
 
 
 if __name__ == "__main__":
