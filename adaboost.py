@@ -9,31 +9,38 @@ def entrenar(X, Y, T, A):
     alphas = []
     #print(len(X))
     #num de pruebas aleatorio
+    D=np.empty(len(X))
+    D.fill(1/len(X))
     for i in range(T):
-        D=np.empty(len(X))
-        D.fill(1/len(X))
         minimo=-1,()
         for k in range(A):
             clasificador=cd.generar_clasificador_debil(28*28)
             error= cd.obtener_error2(clasificador,X,Y,D)
             if error<minimo[0] or minimo[0]==-1:
                 minimo=(error,clasificador)
+
         clasificadores_debiles.append(minimo[1])
         errorTemp=(1-error)/error
+
         if errorTemp<=0:
             alpha=0.5
         else:
             alpha= (1/2)*math.log(((1-error)/error),2)
         alphas.append(alpha)
-        Z=sum(D)
-        Dcopia=D
-        for j in range(len(D)):
+
+        Z=np.sum(D)
+        for j in range(len(X)):
+            Dcopia=D.copy()
             if cd.aplicar_clasificador_debil(minimo[1],X[j]):
                 r=1
             else:
                 r=-1
             Dcopia[j]=D[j]*np.e**(-alpha*Y[j]*r)
+            #print(Dcopia[j],":::", D[j])
+        
         D=Dcopia/Z
+        print(D)
+        
     return (clasificadores_debiles, alphas)
 
 
@@ -41,7 +48,6 @@ def entrenar(X, Y, T, A):
 def test(X,Y,CF):
     CD=[]
     h=0
-    #print(len(CF[0]))
     contador=0
     for i in range(len(X)):
         h=0.0
@@ -52,16 +58,13 @@ def test(X,Y,CF):
                 resul=1
             else:
                 resul=-1
-        h+=CF[1][j]*resul
+            h+=CF[1][j]*resul
         CD.append(np.sign(h))
         CD[i]=int(CD[i])
 
         
     
     for k in range(len(CD)):
-        # utils.mostrar_imagen((X[k]).reshape(28,28))
-        # print(Y[k])
-        # print(CD[k])
         if CD[k]==Y[k]:
             contador=contador+1
     print((contador/len(CD))*100,"%")

@@ -21,14 +21,15 @@ def aplicar_clasificador_debil(clasificador, imagen):
     umbral=clasificador[1]
     i=clasificador[2]
     umbralImg=imagen[pixel]
-    if umbral<umbralImg:
-        if i==-1:
+
+    if i==1:
+        if umbralImg>=umbral:
             return True
         else:
             return False
         
-    if umbral>=umbralImg:
-        if i==1:
+    if i==-1:
+        if  umbralImg<umbral:
             return True
         else:
             return False
@@ -52,10 +53,23 @@ def obtener_error2(clasificador, X, Y, D):
         aplicar=aplicar_clasificador_debil(clasificador,X[k])
         
         if aplicar:
-            if Y[k] != clasificador[2]:
+            if Y[k] != 1:
                 error=error+D[k]
         else:
-            if Y[k] == clasificador[2]:
+            if Y[k] == 1:
                 error=error+D[k]
         #print("clasificador:",clasificador," error: ", error)
     return error
+# def obtener_error2(clasificador, X, Y, D):
+#     error=0.0
+#     for k in range(len(X)):
+#         aplicar=aplicar_clasificador_debil(clasificador,X[k])
+        
+#         if aplicar:
+#             if Y[k] != clasificador[2]:
+#                 error=error+D[k]
+#         else:
+#             if Y[k] == clasificador[2]:
+#                 error=error+D[k]
+#         #print("clasificador:",clasificador," error: ", error)
+#     return error
