@@ -30,7 +30,7 @@ def entrenar(X, Y, T, A):
         alphas.append(alpha)
 
         Z=np.sum(D)
-        Dcopia=D.copy()
+        Dcopia=np.copy(D)
         for j in range(len(X)):
             if cd.aplicar_clasificador_debil(minimo[1],X[j]):
                 r=1
@@ -48,7 +48,7 @@ def entrenar(X, Y, T, A):
 
 
 def test(X,Y,CF):
-    CD=[]
+    resultado=[]
     h=0
     contador=0
     for i in range(len(X)):
@@ -61,16 +61,15 @@ def test(X,Y,CF):
             else:
                 resul=-1
             h+=CF[1][j]*resul
-        CD.append(np.sign(h))
-        CD[i]=int(CD[i])
+        resultado.append(np.sign(h).astype(int))
 
-        
     
-    for k in range(len(CD)):
-        if CD[k]==Y[k]:
+    
+    for k in range(len(resultado)):
+        if resultado[k]==Y[k]:
             contador=contador+1
-    print((contador/len(CD))*100,"%")
-    return np.sign(h)
+    #print((contador/len(resultado))*100,"%")
+    return resultado
 
 
 
@@ -91,13 +90,13 @@ def test(X,Y,CF):
     # etiquetas_Y = Y[0:num]
 
     # # Obtenemos un clasificador debil
-    # CD = cd.generar_clasificador_debil(28*28)
+    # resultado = cd.generar_clasificador_debil(28*28)
 
     # # Aplicamos el clasificador a una imagen
-    # res = cd.aplicar_clasificador_debil(CD, imagenes_X[0])
+    # res = cd.aplicar_clasificador_debil(resultado, imagenes_X[0])
 
     # # Calculamos el error 
-    # error = cd.obtener_error(CD, imagenes_X, etiquetas_Y, D)
+    # error = cd.obtener_error(resultado, imagenes_X, etiquetas_Y, D)
 
     # ##########################
 

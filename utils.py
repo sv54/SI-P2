@@ -9,6 +9,7 @@ def mostrar_imagen(imagen):
 def adaptar_conjuntos(mnist_X, mnist_Y):
     #print("COMPLETAR ADAPTACION")
     X=mnist_X.reshape(60000, 28*28)
+    #Y=adaptarY(mnist_Y)
     return (X,mnist_Y)
 
 def plot_arrays(X, Y, title):
