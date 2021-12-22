@@ -16,12 +16,14 @@ def entrenar(X, Y, T, A):
         minimo=2,()
         for k in range(A):
             clasificador=cd.generar_clasificador_debil(28*28)
-            error= cd.obtener_error2(clasificador,X,Y,D)
+            error= cd.obtener_error(clasificador,X,Y,D)
             if error<minimo[0] or minimo[0]==2:
                 actualizamos+=1
                 minimo=(error,clasificador)
 
         clasificadores_debiles.append(minimo[1])
+        if error==0.0:
+            error=0.1
         errorTemp=(1-error)/error
         if errorTemp<=0:
             alpha=0.5
@@ -50,11 +52,10 @@ def entrenar(X, Y, T, A):
 def test(X,Y,CF):
     resultado=[]
     h=0
-    contador=0
+    aciertos=0
     for i in range(len(X)):
         h=0.0
         for j in range(len(CF[0])):
-            
             aplicar=cd.aplicar_clasificador_debil(CF[0][j],X[i])
             if aplicar:
                 resul=1
@@ -65,10 +66,10 @@ def test(X,Y,CF):
 
     
     
-    for k in range(len(resultado)):
-        if resultado[k]==Y[k]:
-            contador=contador+1
-    #print((contador/len(resultado))*100,"%")
+    # for k in range(len(resultado)):
+    #     if resultado[k]==Y[k]:
+    #         aciertos=aciertos+1
+    #print((aciertos/len(resultado))*100,"%")
     return resultado
 
 

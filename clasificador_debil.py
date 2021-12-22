@@ -34,20 +34,8 @@ def aplicar_clasificador_debil(clasificador, imagen):
         else:
             return False
 
+
 def obtener_error(clasificador, X, Y, D):
-    errorList=[]
-    for k in range(len(X)):
-        aplicar=aplicar_clasificador_debil(clasificador,X[k])
-        if aplicar:
-            errorList.append(0)
-        else:
-            errorList.append(1)
-
-    temp=np.multiply(errorList,D)
-    errorTotal=np.sum(temp)
-    return errorTotal
-
-def obtener_error2(clasificador, X, Y, D):
     error=0.0
     for k in range(len(X)):
         aplicar=aplicar_clasificador_debil(clasificador,X[k])
@@ -60,16 +48,3 @@ def obtener_error2(clasificador, X, Y, D):
                 error=error+D[k]
         #print("clasificador:",clasificador," error: ", error)
     return error
-# def obtener_error2(clasificador, X, Y, D):
-#     error=0.0
-#     for k in range(len(X)):
-#         aplicar=aplicar_clasificador_debil(clasificador,X[k])
-        
-#         if aplicar:
-#             if Y[k] != clasificador[2]:
-#                 error=error+D[k]
-#         else:
-#             if Y[k] == clasificador[2]:
-#                 error=error+D[k]
-#         #print("clasificador:",clasificador," error: ", error)
-#     return error
