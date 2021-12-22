@@ -16,31 +16,41 @@ def main():
     mnist_Y = npzfile['y']
     #utils.mostrar_imagen(mnist_X[0])
     #print(mnist_Y[0])
-    for i in range (100):
+    for i in range (1):
         num=1000
         incr=1000
 
         (X, Y) = utils.adaptar_conjuntos(mnist_X, mnist_Y)
         X = X[0:num]
         Y = Y[0:num]
-        Y=utils.adaptarY(Y,0)
+        Y=utils.adaptarY(Y,1)
 
         # Lanzar Adaboost
         T = 1
         A = 1
     #    print(Y)
-        c_f = adaboost.entrenar(X, Y, T, A)
+        cf0 = adaboost.entrenar(X, Y, T, A)
+        cf1 = adaboost.entrenar(X, Y, T, A)
+        cf2 = adaboost.entrenar(X, Y, T, A)
+        cf3 = adaboost.entrenar(X, Y, T, A)
+        cf4 = adaboost.entrenar(X, Y, T, A)
+        cf5 = adaboost.entrenar(X, Y, T, A)
+        cf6 = adaboost.entrenar(X, Y, T, A)
+        cf7 = adaboost.entrenar(X, Y, T, A)
+        cf8 = adaboost.entrenar(X, Y, T, A)
+        cf9 = adaboost.entrenar(X, Y, T, A)
         
         
 
         #print("Entrenamiento acabado", len(c_f[0]))
-        for i in range(1):
+        for i in range(10):
             num=num+incr
             (X,Y)=utils.adaptar_conjuntos(mnist_X,mnist_Y)
             X=X[num:num+incr]
             Y=Y[num:num+incr]
-            Y=utils.adaptarY(Y,0)
-            adaboost.test(X,Y,c_f)
+            Y=utils.adaptarY(Y,10)
+            #print(Y)
+            adaboost.test(X,Y,cf1)
 
 
 if __name__ == "__main__":
