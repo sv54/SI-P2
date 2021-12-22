@@ -9,10 +9,10 @@ import clasificador_debil as cd
 #Entrenar los 10 clasificadores fuertes
 def entrenarCFs(X,mnist_Y):
     listaCFs=[0,1,2,3,4,5,6,7,8,9]
-    num=100 #numero de imagenes
+    num=2000 #numero de imagenes
     #incr=100 
-    A=50 #Num de intentos para cada clasificador
-    T=10 #Num de clasificadores debiles
+    A=100 #Num de intentos para cada clasificador
+    T=100 #Num de clasificadores debiles
     for i in range(10):
         Y=utils.adaptarY(mnist_Y,i) #adaptamos el conjunto a la clase 
         listaCFs[i]=adaboost.entrenar(X[0:num],Y[0:num],T,A)
@@ -20,8 +20,8 @@ def entrenarCFs(X,mnist_Y):
     return listaCFs
 
 def entrenarCF(X,Y,clase):
-    num=5000
-    T=100
+    num=10000
+    T=10
     A=100
     Y=utils.adaptarY(Y,clase)
     CFentrenado=adaboost.entrenar(X[0:num],Y[0:num],T,A)
@@ -65,14 +65,14 @@ def testCFs(X,Y,listaCFs):
             if(listaImgRes[i][j]==1 and listaImgRes[i][j]==Y[i]):
                 resultado+=1
                 #print("imagen "+str(i)+" pertenece a la clase "+str(j))
-                break
+                #break
                 # ultimo=j
                 # if (Y[i]==ultimo):
                 #     resultado=resultado+1    
                 
     for i in listaImgRes:
        print(i)
-    print(resultado/len(X)*100)
+    print((resultado/len(X))*100)
 
     return 0
 
@@ -88,17 +88,19 @@ def main():
     #print(mnist_Y[0])
     #utils.mostrar_imagen(mnist_X[30001])
     X,Y=utils.adaptar_conjuntos(mnist_X,mnist_Y)
-    #CF=entrenarCF(X,mnist_Y,0)
-    #testCF(X,mnist_Y,CF,0)
+    CF=entrenarCF(X,mnist_Y,0)
+    testCF(X,mnist_Y,CF,0)
 
+    # listaCF=[0,1,2,3,4,5,6,7,8,9]
+    # for i in range(10):
+    #     listaCF[i]=entrenarCF(X,mnist_Y,i)
 
-
-    listaCF=entrenarCFs(X,mnist_Y)
-    #print(listaCF)
+    # #
+    # # print(listaCF)
     
-    X=X[30000:32000]
-    Y=Y[30000:32000]
-    testCFs(X,Y,listaCF)
+    # X=X[30000:35000]
+    # Y=Y[30000:35000]
+    # testCFs(X,Y,listaCF)
 
 
 
@@ -117,8 +119,8 @@ def main():
     #     Y=utils.adaptarY(Y,2)
 
     #     # Lanzar Adaboost
-    #     T = 10
-    #     A = 10
+    #     T = 50
+    #     A = 50
     # #    print(Y)
     #     cf0 = adaboost.entrenar(X, Y, T, A)
 

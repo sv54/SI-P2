@@ -69,7 +69,7 @@ def test(X,Y,CF):
     # for k in range(len(resultado)):
     #     if resultado[k]==Y[k]:
     #         aciertos=aciertos+1
-    #print((aciertos/len(resultado))*100,"%")
+    # print((aciertos/len(resultado))*100,"%")
     return resultado
 
 
